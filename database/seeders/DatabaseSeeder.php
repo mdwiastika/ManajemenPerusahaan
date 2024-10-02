@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             JabatanSeeder::class,
             KaryawanSeeder::class,
             AbsensiSeeder::class,
+            GajiSeeder::class,
         ]);
     }
 }

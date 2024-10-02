@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AbsensiController;
 use App\Http\Controllers\Api\DepartemenController;
+use App\Http\Controllers\Api\GajiController;
 use App\Http\Controllers\Api\JabatanController;
 use App\Http\Controllers\Api\KaryawanController;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ Route::apiResource('/karyawans', KaryawanController::class);
 Route::apiResource('/departemens', DepartemenController::class);
 Route::apiResource('/jabatans', JabatanController::class);
 Route::apiResource('/absensis', AbsensiController::class);
+Route::apiResource('/gajis', GajiController::class);
 Route::prefix('absensis/filter')->group(function () {
     Route::get('/karyawan/{id}', [AbsensiController::class, 'filterByKaryawan']);
     Route::get('/date/{date}', [AbsensiController::class, 'filterByDate']);
