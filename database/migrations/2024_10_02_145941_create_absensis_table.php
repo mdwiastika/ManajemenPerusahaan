@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('karyawan_id')->constrained('karyawans')->cascadeOnDelete();
+            $table->date('tanggal');
+            $table->time('waktu_masuk');
+            $table->time('waktu_keluar');
+            $table->enum('status_absensi', ['hadir', 'izin', 'sakit', 'cuti', 'alpha']);
             $table->timestamps();
         });
     }
