@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->text('alamat');
             $table->date('tanggal_masuk');
-            $table->foreignId('departmen_id')->constrained('departemens')->cascadeOnDelete();
+            $table->foreignId('departemen_id')->constrained('departemens')->cascadeOnDelete();
             $table->foreignId('jabatan_id')->constrained('jabatans')->cascadeOnDelete();
             $table->enum('status', ['aktif', 'nonaktif']);
             $table->timestamps();

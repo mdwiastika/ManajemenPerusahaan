@@ -11,4 +11,8 @@ class Departemen extends Model
     protected $fillable = [
         'nama_departemen',
     ];
+    public function karyawans()
+    {
+        return $this->hasMany(Karyawan::class);
+    }
 }

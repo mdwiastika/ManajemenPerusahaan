@@ -29,7 +29,7 @@ class JabatanController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'nama_jabatan'
+                'nama_jabatan' => 'required',
             ]);
             $jabatan = Jabatan::create($validatedData);
             return new JabatanResource(true, 'Sucessfully Store Jabatan Data!', $jabatan);
