@@ -11,9 +11,19 @@ use Illuminate\Validation\ValidationException;
 
 class KaryawanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $karyawans = Karyawan::latest()->with(['departemen', 'jabatan'])->get();
+        $karyawans = Karyawan::query();
+        if ($request->has('filter')) {
+            $filters = $request->filter;
+            if (isset($filters['departemen_id'])) {
+                $karyawans->where('departemen_id', $filters['departemen_id']);
+            }
+            if (isset($filters['jabatan_id'])) {
+                $karyawans->where('jabatan_id', $filters['jabatan_id']);
+            }
+        }
+        $karyawans = $karyawans->with(['departemen', 'jabatan'])->paginate(10);
         return new KaryawanResource(true, 'Successfuly Get Karyawan Data!', $karyawans);
     }
     public function store(Request $request)
