@@ -31,7 +31,7 @@ class KaryawanController extends Controller
         try {
             $validatedData = $request->validate([
                 'nama_lengkap' => 'required',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:karyawans',
                 'nomor_telepon' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
                 'tanggal_lahir' => 'required|date|before:today',
                 'alamat' => 'required',
@@ -61,7 +61,7 @@ class KaryawanController extends Controller
             $karyawan = Karyawan::with(['departemen', 'jabatan'])->findOrFail($id);
             $validatedData = $request->validate([
                 'nama_lengkap' => 'required',
-                'email' => 'required|email',
+                'email' => 'required|email|unique:karyawans,email,' . $id,
                 'nomor_telepon' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
                 'tanggal_lahir' => 'required|date|before:today',
                 'alamat' => 'required',

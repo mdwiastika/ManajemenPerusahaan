@@ -24,3 +24,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/karyawans', KaryawanController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('/departemens', DepartemenController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('/jabatans', JabatanController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('/absensis', AbsensiController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('/gajis', GajiController::class)->only(['store', 'update', 'destroy']);
+});
