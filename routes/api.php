@@ -18,8 +18,3 @@ Route::apiResource('/departemens', DepartemenController::class);
 Route::apiResource('/jabatans', JabatanController::class);
 Route::apiResource('/absensis', AbsensiController::class);
 Route::apiResource('/gajis', GajiController::class);
-Route::prefix('absensis/filter')->group(function () {
-    Route::get('/karyawan/{id}', [AbsensiController::class, 'filterByKaryawan']);
-    Route::get('/date/{date}', [AbsensiController::class, 'filterByDate']);
-    Route::get('/karyawan/{id}/date/{date}', [AbsensiController::class, 'filterByKaryawanAndDate']);
-});

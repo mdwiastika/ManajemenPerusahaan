@@ -11,10 +11,24 @@ use Illuminate\Validation\ValidationException;
 
 class AbsensiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $absensis = Absensi::with('karyawan')->latest()->get();
-        return new AbsensiResource(true, 'Successfully Get Absensi Data', $absensis);
+        try {
+            $absensis = Absensi::query();
+            if ($request->has('filter')) {
+                $filters = $request->filter;
+                if (isset($filters['karyawan_id'])) {
+                    $absensis->where('karyawan_id', $filters['karyawan_id']);
+                }
+                if (isset($filters['date'])) {
+                    $absensis->where('tanggal', $filters['date']);
+                }
+            }
+            $absensis = $absensis->with('karyawan')->paginate(10);
+            return new AbsensiResource(true, 'Successfully Get Absensi Data!', $absensis);
+        } catch (\Throwable $th) {
+            return new AbsensiResource(false, $th->getMessage(), null);
+        }
     }
     public function store(Request $request)
     {
@@ -68,33 +82,6 @@ class AbsensiController extends Controller
             $absensi = Absensi::findOrFail($id);
             $absensi->delete();
             return new AbsensiResource(true, 'Successfully Delete Absensi Data!', null);
-        } catch (ModelNotFoundException $me) {
-            return new AbsensiResource(false, $me->getMessage(), null);
-        }
-    }
-    public function filterByKaryawan($id)
-    {
-        try {
-            $absensis = Absensi::where('karyawan_id', $id)->with('karyawan')->get();
-            return new AbsensiResource(true, 'Successfully Get Absensi Data!', $absensis);
-        } catch (ModelNotFoundException $me) {
-            return new AbsensiResource(false, $me->getMessage(), null);
-        }
-    }
-    public function filterByDate($date)
-    {
-        try {
-            $absensis = Absensi::where('tanggal', $date)->with('karyawan')->get();
-            return new AbsensiResource(true, 'Successfully Get Absensi Data!', $absensis);
-        } catch (ModelNotFoundException $me) {
-            return new AbsensiResource(false, $me->getMessage(), null);
-        }
-    }
-    public function filterByKaryawanAndDate($id, $date)
-    {
-        try {
-            $absensis = Absensi::where('karyawan_id', $id)->where('tanggal', $date)->with('karyawan')->get();
-            return new AbsensiResource(true, 'Successfully Get Absensi Data!', $absensis);
         } catch (ModelNotFoundException $me) {
             return new AbsensiResource(false, $me->getMessage(), null);
         }
